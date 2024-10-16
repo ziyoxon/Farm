@@ -1,47 +1,15 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { Field, InputType } from "@nestjs/graphql";
 
+@InputType()
 export class CreateAdminDto {
-  @ApiProperty({
-    example: "Admin",
-    description: "Admin's name",
-  })
+  @Field()
   name: string;
-
-  @ApiProperty({
-    example: "admin@example.com",
-    description: "Admin's email",
-  })
+  @Field()
   login: string;
-
-  @ApiProperty({
-    example: "link",
-    description: "Admin's tg_link",
-  })
+  @Field()
   telegram_link: string;
-
-  @ApiProperty({
-    example: "adminphoto",
-    description: "Admin's photo",
-  })
-  admin_photo: string;
-
-  @ApiProperty({
-    example: "adminpassword",
-    description: "Admin's password",
-  })
+  @Field()
+  admin_photo: string
+  @Field()
   hashed_password: string;
-
-  @ApiProperty({
-    example: true,
-    description: "Admin's status (active/inactive)",
-  })
-  is_active: boolean;
-
-  @ApiProperty({
-    example: true,
-    description: "Admin's role (creator/non-creator)",
-  })
-  is_creator: boolean;
-
-  hashed_refresh_token?: string;
 }

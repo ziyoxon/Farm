@@ -1,28 +1,15 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import { ValidationPipe } from "@nestjs/common";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import * as cookieParser from "cookie-parser";
+import { ConfigService } from "@nestjs/config";
 
-async function start() {
-  try {
-    const PORT = process.env.PORT || 3000;
-    const app = await NestFactory.create(AppModule);
-    app.use(cookieParser());
-    app.useGlobalPipes(new ValidationPipe());
-    const config = new DocumentBuilder()
-      .setTitle("Farm project")
-      .setDescription("Farm project REST API")
-      .setVersion("1.0")
-      .addTag("NESTJS, validation, mailer,swagger, guard, sequelize, pg")
-      .build();
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup("api/docs", app, document);
-    await app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.log(error);
-  }
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>("PORT") || 3030;
+
+  await app.listen(port);
+  console.log(`Server is running on http://localhost:${port}`);
 }
-start();
+
+bootstrap();

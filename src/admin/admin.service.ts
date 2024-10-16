@@ -1,51 +1,41 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { CreateAdminDto } from "./dto/create-admin.dto";
 import { UpdateAdminDto } from "./dto/update-admin.dto";
-import { InjectModel } from "@nestjs/sequelize";
-import { Admin } from "./models/admin.model";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
+import { Admin } from "./models/admin.model";
 
 @Injectable()
 export class AdminService {
-  constructor(@InjectModel(Admin) private adminModel: typeof Admin) {}
+  constructor(
+    @InjectRepository(Admin) private readonly adminRepo: Repository<Admin>
+  ) {}
+
   async create(createAdminDto: CreateAdminDto) {
     const hashedPassword = await bcrypt.hash(createAdminDto.hashed_password, 3);
-    const newAdmin = await this.adminModel.create({
+    const newAdmin = this.adminRepo.create({
       ...createAdminDto,
       hashed_password: hashedPassword,
     });
-    return newAdmin;
-  }
-
-  findAdminByEmail(login: string):Promise<Admin> {
-    return this.adminModel.findOne({
-      where: { login },
-      include: {
-        all: true,
-        attributes: ["value"],
-        through: { attributes: [] },
-      },
-    });
+    return this.adminRepo.save(newAdmin);
   }
 
   findAll() {
-    return this.adminModel.findAll({ include: { all: true } });
+    return this.adminRepo.find();
   }
 
   findOne(id: number) {
-    return this.adminModel.findOne({ where: { id }, include: { all: true } });
+    return this.adminRepo.findOne({ where: { id }});
   }
 
   async update(id: number, updateAdminDto: UpdateAdminDto) {
-    const admin = await this.adminModel.update(updateAdminDto, {
-      where: { id },
-      returning: true,
-    });
-    return admin[1][0];
+    await this.adminRepo.update(id, updateAdminDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return this.adminModel.destroy({ where: { id } });
+  async remove(id: number) {
+    await this.adminRepo.delete(id);
+    return id;
   }
-
 }

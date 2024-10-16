@@ -1,32 +1,35 @@
-import { ConfigModule } from "@nestjs/config";
-import { join } from "node:path";
-import { SequelizeModule } from "@nestjs/sequelize";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { Module } from "@nestjs/common";
-import { ServeStaticModule } from "@nestjs/serve-static";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { GraphQLModule } from "@nestjs/graphql";
 import { AdminModule } from "./admin/admin.module";
-import { Admin } from "./admin/models/admin.model";
-import { WorkersModule } from './workers/workers.module';
-import { Worker } from "./workers/models/worker.model";
+import { WorkersModule } from "./workers/workers.module";
+
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: ".env", isGlobal: true }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "static"),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: "schema.gql",
+      sortSchema: true,
+      playground: true,
     }),
-    SequelizeModule.forRoot({
-      dialect: "postgres",
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB,
-      models: [
-        Admin,
-        Worker
-      ],
-      autoLoadModels: true,
-      sync: { alter: true },
-      logging: false,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        type: config.get<"postgres">("PG_CONNECTION"),
+        host: config.get<string>("PG_HOST"),
+        username: config.get<string>("PG_USERNAME"),
+        password: config.get<string>("PG_PASSWORD"),
+        port: config.get<number>("PG_PORT"),
+        database: config.get<string>("PG_DATABASE"),
+        entities: [__dirname + "dist/**/*.entity{.ts,.js}"],
+        synchronize: true,
+        autoLoadEntities: true,
+        logging: true,
+      }),
     }),
     AdminModule,
     WorkersModule

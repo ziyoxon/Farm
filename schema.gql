@@ -1,0 +1,80 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Admin {
+  admin_photo: String!
+  createdAt: DateTime!
+  hashed_password: String!
+  hashed_refresh_token: String!
+  id: ID!
+  login: String!
+  name: String!
+  telegram_link: String!
+  updatedAt: DateTime!
+}
+
+input CreateAdminDto {
+  admin_photo: String!
+  hashed_password: String!
+  login: String!
+  name: String!
+  telegram_link: String!
+}
+
+input CreateWorkerDto {
+  age: Float!
+  expires: Float!
+  name: String!
+  phone: String!
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createAdmin(createAdmin: CreateAdminDto!): Admin!
+  createWorker(createWorker: CreateWorkerDto!): Worker!
+  removeAdmin(id: ID!): ID!
+  removeWorker(id: ID!): ID!
+  updateAdmin(id: Float!, updateAdmin: UpdateAdminDto!): Admin!
+  updateWorker(id: ID!, updateWorker: UpdateWorkerDto!): Worker!
+}
+
+type Query {
+  findAllAdmin: [Admin!]!
+  findAllWorkers: [Worker!]!
+  findOneAdmin(id: Float!): Admin!
+  findOneWorker(id: ID!): Worker!
+}
+
+input UpdateAdminDto {
+  admin_photo: String!
+  hashed_password: String!
+  hashed_refresh_token: String!
+  login: String!
+  name: String!
+  telegram_link: String!
+}
+
+input UpdateWorkerDto {
+  age: Float!
+  expires: Float!
+  name: String!
+  phone: String!
+  username: String!
+}
+
+type Worker {
+  age: Float!
+  createdAt: DateTime!
+  expires: Float!
+  id: ID!
+  name: String!
+  phone: String!
+  updatedAt: DateTime!
+  username: String!
+}

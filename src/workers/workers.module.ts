@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { WorkersService } from './workers.service';
 import { WorkersController } from './workers.controller';
-import { SequelizeModule } from '@nestjs/sequelize';
 import { Worker } from './models/worker.model';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { WorkersResolver } from './workers.resolver';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Worker])],
-  exports: [WorkersService],
+  imports: [TypeOrmModule.forFeature([Worker])],
   controllers: [WorkersController],
-  providers: [WorkersService],
+  providers: [WorkersService,WorkersResolver],
 })
 export class WorkersModule {}

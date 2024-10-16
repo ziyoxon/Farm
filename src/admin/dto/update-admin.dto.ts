@@ -1,4 +1,17 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateAdminDto } from './create-admin.dto';
+import { Field, InputType } from '@nestjs/graphql';
 
-export class UpdateAdminDto extends PartialType(CreateAdminDto) {}
+@InputType()
+export class UpdateAdminDto {
+  @Field()
+  name: string;
+  @Field()
+  login: string;
+  @Field()
+  telegram_link: string;
+  @Field()
+  admin_photo: string;
+  @Field()
+  hashed_password: string;
+  @Field()
+  hashed_refresh_token: string;
+}

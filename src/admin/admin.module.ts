@@ -1,13 +1,13 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminController } from './admin.controller';
-import { SequelizeModule } from '@nestjs/sequelize';
 import { Admin } from './models/admin.model';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdminsResolver } from './admin.resolver';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Admin])],
-  exports: [AdminService],
+  imports: [TypeOrmModule.forFeature([Admin])],
   controllers: [AdminController],
-  providers: [AdminService],
+  providers: [AdminService,AdminsResolver],
 })
 export class AdminModule {}
