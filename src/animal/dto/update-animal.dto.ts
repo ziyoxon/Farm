@@ -1,4 +1,15 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateAnimalDto } from './create-animal.dto';
+import { Field, InputType } from '@nestjs/graphql';
 
-export class UpdateAnimalDto extends PartialType(CreateAnimalDto) {}
+@InputType()
+export class UpdateAnimalDto {
+    @Field()
+    photo: string;
+
+    @Field()
+    name: string;
+
+    @Field()
+    age: number;
+}

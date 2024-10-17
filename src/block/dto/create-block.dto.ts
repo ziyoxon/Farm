@@ -2,16 +2,12 @@ import { Field, InputType } from "@nestjs/graphql";
 import { Column } from "typeorm";
 
 @InputType()
-export class CreateAnimalDto {
+export class CreateBlockDto {
   @Field()
   @Column()
-  photo: string;
+  number: number;
 
   @Field()
   @Column()
-  name: string;
-
-  @Field()
-  @Column()
-  age: number;
+  description: string;
 }

@@ -14,12 +14,38 @@ type Admin {
   updatedAt: DateTime!
 }
 
+type Animal {
+  age: Float!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  photo: String!
+  updatedAt: DateTime!
+}
+
+type Block {
+  description: String!
+  id: ID!
+  number: Float!
+}
+
 input CreateAdminDto {
   admin_photo: String!
   hashed_password: String!
   login: String!
   name: String!
   telegram_link: String!
+}
+
+input CreateAnimalDto {
+  age: Float!
+  name: String!
+  photo: String!
+}
+
+input CreateBlockDto {
+  description: String!
+  number: Float!
 }
 
 input CreateSpecialityDto {
@@ -42,21 +68,31 @@ scalar DateTime
 
 type Mutation {
   createAdmin(createAdmin: CreateAdminDto!): Admin!
+  createAnimal(createAnimal: CreateAnimalDto!): Animal!
+  createBlock(createBlock: CreateBlockDto!): Block!
   createSpeciality(createSpeciality: CreateSpecialityDto!): Speciality!
   createWorker(createWorker: CreateWorkerDto!): Worker!
   removeAdmin(id: ID!): ID!
+  removeAnimal(id: ID!): ID!
+  removeBlock(id: ID!): ID!
   removeSpeciality(id: ID!): ID!
   removeWorker(id: ID!): ID!
   updateAdmin(id: Float!, updateAdmin: UpdateAdminDto!): Admin!
+  updateAnimal(id: ID!, updateAnimal: UpdateAnimalDto!): Animal!
+  updateBlock(id: ID!, updateBlock: UpdateBlockDto!): Block!
   updateSpeciality(id: ID!, updateSpeciality: UpdateSpecialityDto!): Speciality!
   updateWorker(id: ID!, updateWorker: UpdateWorkerDto!): Worker!
 }
 
 type Query {
   findAllAdmin: [Admin!]!
+  findAllAnimals: [Animal!]!
+  findAllBlocks: [Block!]!
   findAllSpecialities: [Speciality!]!
   findAllWorkers: [Worker!]!
   findOneAdmin(id: Float!): Admin!
+  findOneAnimal(id: ID!): Animal!
+  findOneBlock(id: ID!): Block!
   findOneSpeciality(id: ID!): Speciality!
   findOneWorker(id: ID!): Worker!
 }
@@ -74,6 +110,17 @@ input UpdateAdminDto {
   login: String!
   name: String!
   telegram_link: String!
+}
+
+input UpdateAnimalDto {
+  age: Float!
+  name: String!
+  photo: String!
+}
+
+input UpdateBlockDto {
+  description: String!
+  number: Float!
 }
 
 input UpdateSpecialityDto {

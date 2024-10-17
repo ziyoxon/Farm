@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAnimalDto } from './dto/create-animal.dto';
 import { UpdateAnimalDto } from './dto/update-animal.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Animal } from './entities/animal.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AnimalService {
-  create(createAnimalDto: CreateAnimalDto) {
-    return 'This action adds a new animal';
+  constructor(
+    @InjectRepository(Animal) private readonly animalRepo: Repository<Animal>
+  ) {}
+  async create(createAnimalDto: CreateAnimalDto) {
+    const newAnimal = this.animalRepo.create(createAnimalDto);
+    return await this.animalRepo.save(newAnimal);
   }
 
   findAll() {
-    return `This action returns all animal`;
+    return this.animalRepo.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} animal`;
+    return this.animalRepo.findOne({where: {id}});
   }
 
-  update(id: number, updateAnimalDto: UpdateAnimalDto) {
-    return `This action updates a #${id} animal`;
+  async update(id: number, updateAnimalDto: UpdateAnimalDto) {
+    await this.animalRepo.update(id, updateAnimalDto);
+    return this.findOne(id)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} animal`;
+  async remove(id: number) {
+    await  this.animalRepo.delete(id)
+    return id;
   }
 }

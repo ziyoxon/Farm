@@ -7,6 +7,8 @@ import { AdminModule } from "./admin/admin.module";
 import { WorkersModule } from "./workers/workers.module";
 import { SpecialityModule } from './speciality/speciality.module';
 import { AnimalModule } from './animal/animal.module';
+import { BlockModule } from './block/block.module';
+import { InfoModule } from './info/info.module';
 
 @Module({
   imports: [
@@ -36,7 +38,9 @@ import { AnimalModule } from './animal/animal.module';
     AdminModule,
     WorkersModule,
     SpecialityModule,
-    AnimalModule
+    AnimalModule,
+    BlockModule,
+    // InfoModule
   ],
   controllers: [],
   providers: [],
