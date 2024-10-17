@@ -22,6 +22,11 @@ input CreateAdminDto {
   telegram_link: String!
 }
 
+input CreateSpecialityDto {
+  description: String!
+  title: String!
+}
+
 input CreateWorkerDto {
   age: Float!
   expires: Float!
@@ -37,18 +42,29 @@ scalar DateTime
 
 type Mutation {
   createAdmin(createAdmin: CreateAdminDto!): Admin!
+  createSpeciality(createSpeciality: CreateSpecialityDto!): Speciality!
   createWorker(createWorker: CreateWorkerDto!): Worker!
   removeAdmin(id: ID!): ID!
+  removeSpeciality(id: ID!): ID!
   removeWorker(id: ID!): ID!
   updateAdmin(id: Float!, updateAdmin: UpdateAdminDto!): Admin!
+  updateSpeciality(id: ID!, updateSpeciality: UpdateSpecialityDto!): Speciality!
   updateWorker(id: ID!, updateWorker: UpdateWorkerDto!): Worker!
 }
 
 type Query {
   findAllAdmin: [Admin!]!
+  findAllSpecialities: [Speciality!]!
   findAllWorkers: [Worker!]!
   findOneAdmin(id: Float!): Admin!
+  findOneSpeciality(id: ID!): Speciality!
   findOneWorker(id: ID!): Worker!
+}
+
+type Speciality {
+  description: String!
+  id: ID!
+  title: String!
 }
 
 input UpdateAdminDto {
@@ -58,6 +74,12 @@ input UpdateAdminDto {
   login: String!
   name: String!
   telegram_link: String!
+}
+
+input UpdateSpecialityDto {
+  description: String!
+  id: Float!
+  title: String!
 }
 
 input UpdateWorkerDto {

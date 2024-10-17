@@ -5,6 +5,8 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { GraphQLModule } from "@nestjs/graphql";
 import { AdminModule } from "./admin/admin.module";
 import { WorkersModule } from "./workers/workers.module";
+import { SpecialityModule } from './speciality/speciality.module';
+import { AnimalModule } from './animal/animal.module';
 
 @Module({
   imports: [
@@ -32,7 +34,9 @@ import { WorkersModule } from "./workers/workers.module";
       }),
     }),
     AdminModule,
-    WorkersModule
+    WorkersModule,
+    SpecialityModule,
+    AnimalModule
   ],
   controllers: [],
   providers: [],
