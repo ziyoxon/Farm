@@ -9,6 +9,12 @@ import { SpecialityModule } from './speciality/speciality.module';
 import { AnimalModule } from './animal/animal.module';
 import { BlockModule } from './block/block.module';
 import { InfoModule } from './info/info.module';
+import { FiberProductionModule } from "./fiber_production/fiber_production.module";
+import { MeatProductionModule } from "./meat_production/meat_production.module";
+import { VaccinationHistoryModule } from "./vaccination_history/vaccination_history.module";
+import { VaccineModule } from "./vaccine/vaccine.module";
+import { FeedingModule } from "./feeding/feeding.module";
+import { MilkProductionModule } from "./milk_production/milk_production.module";
 
 @Module({
   imports: [
@@ -40,7 +46,13 @@ import { InfoModule } from './info/info.module';
     SpecialityModule,
     AnimalModule,
     BlockModule,
-    // InfoModule
+    // InfoModule,
+    FiberProductionModule,
+    MeatProductionModule,
+    VaccinationHistoryModule,
+    VaccineModule,
+    FeedingModule,
+    MilkProductionModule
   ],
   controllers: [],
   providers: [],
